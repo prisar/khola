@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
                     composable("home") { Home(navController) }
                     composable("travel_ui") { TravelUI() }
                     composable("payment_app_screen") { PaymentAppScreen() }
+                    composable("scanner_app_screen") { ScannerAppScreen() }
                 }
             }
         }
@@ -89,6 +90,16 @@ fun Home(navController: NavHostController) {
                 .padding(horizontal = 16.dp)
         ) {
             Text("Payment App")
+        }
+
+        Button (
+            onClick = { navController.navigate("scanner_app_screen") },
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            Text("Scanner App")
         }
     }
 }

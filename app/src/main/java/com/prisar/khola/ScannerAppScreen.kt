@@ -1,26 +1,29 @@
 package com.prisar.khola
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.prisar.khola.ui.theme.KholaTheme
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -34,7 +37,7 @@ fun ScannerAppScreen() {
                 listOf(
                     Triple("Home", Icons.Default.Home, 0),
                     Triple("Profile", Icons.Default.Person, 1),
-//                    Triple("Files", Icons.Default.Description, 2),
+                    Triple("Files", Icons.Default.MailOutline, 2),
                     Triple("Menu", Icons.Default.Menu, 3)
                 ).forEachIndexed { index, (title, icon, _) ->
                     NavigationBarItem(
@@ -64,18 +67,19 @@ fun ScannerAppScreen() {
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
-//                IconButton(
-//                    onClick = { },
-//                    modifier = Modifier
-//                        .clip(CircleShape)
-//                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
-//                ) {
-//                    Icon(
+                IconButton(
+                    onClick = { },
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
+                ) {
+                    Icon(
 //                        Icons.Default.CameraAlt,
-//                        contentDescription = "Camera",
-//                        tint = MaterialTheme.colorScheme.primary
-//                    )
-//                }
+                        Icons.Default.Add,
+                        contentDescription = "Camera",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             // Quick Actions Grid
@@ -89,14 +93,14 @@ fun ScannerAppScreen() {
 
 @Composable
 fun QuickActionsGrid() {
-//    val actions = listOf(
-//        Triple("Scan Card", Icons.Default.CreditCard, MaterialTheme.colorScheme.primary),
-//        Triple("Protect PDF", Icons.Default.Shield, MaterialTheme.colorScheme.primary),
-//        Triple("SVG to PDF", Icons.Default.PictureAsPdf, MaterialTheme.colorScheme.primary),
-//        Triple("Merge PDF", Icons.Default.Link, MaterialTheme.colorScheme.primary),
-//        Triple("Water mark", Icons.Default.Image, MaterialTheme.colorScheme.primary),
-//        Triple("All tools", Icons.Default.Apps, MaterialTheme.colorScheme.primary)
-//    )
+    val actions = listOf(
+        Triple("Scan Card", R.drawable.ic_credit_card, MaterialTheme.colorScheme.primary),
+        Triple("Protect PDF", R.drawable.ic_lock, MaterialTheme.colorScheme.primary),
+        Triple("SVG to PDF", R.drawable.ic_picture_to_pdf, MaterialTheme.colorScheme.primary),
+        Triple("Merge PDF", R.drawable.ic_merge, MaterialTheme.colorScheme.primary),
+        Triple("Water mark", R.drawable.ic_watermark, MaterialTheme.colorScheme.primary),
+        Triple("All tools", R.drawable.ic_apps, MaterialTheme.colorScheme.primary)
+    )
 
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
         LazyVerticalGrid(
@@ -104,28 +108,29 @@ fun QuickActionsGrid() {
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-//            items(actions) { (title, icon, color) ->
-//                Column(
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    modifier = Modifier
-//                        .clip(RoundedCornerShape(12.dp))
-//                        .background(color.copy(alpha = 0.1f))
-//                        .padding(16.dp)
-//                ) {
-//                    Icon(
-//                        icon,
-//                        contentDescription = title,
-//                        tint = color,
-//                        modifier = Modifier.size(24.dp)
-//                    )
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    Text(
-//                        text = title,
-//                        style = MaterialTheme.typography.bodySmall,
-//                        color = MaterialTheme.colorScheme.onSurface
-//                    )
-//                }
-//            }
+            items(actions) { (title, drawableId, color) ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(color.copy(alpha = 0.1f))
+                        .padding(16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = drawableId),
+                        contentDescription = title,
+                        modifier = Modifier.size(24.dp),
+                        contentScale = ContentScale.Fit,
+                        colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(color)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
         }
     }
 }
@@ -165,12 +170,13 @@ fun RecentFileItem(file: RecentFile) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.weight(1f)
         ) {
-//            Icon(
-//                Icons.Default.Description,
-//                contentDescription = null,
-//                tint = MaterialTheme.colorScheme.primary,
-//                modifier = Modifier.size(40.dp)
-//            )
+            Image(
+                painter = painterResource(id = R.drawable.pdf_preview),
+                contentDescription = "Preview",
+                modifier = Modifier.size(42.dp),
+                contentScale = ContentScale.Fit,
+//                colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(MaterialTheme.colorScheme.primary)
+            )
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
@@ -205,3 +211,11 @@ fun getSampleRecentFiles() = listOf(
     RecentFile("User Documents", "16 August 2023"),
     RecentFile("Office leave vacation", "20 August 2023")
 )
+
+@Preview(showBackground = true)
+@Composable
+fun QuickActionsGridPreview() {
+    KholaTheme {
+        ScannerAppScreen()
+    }
+}
